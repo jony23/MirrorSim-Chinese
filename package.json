@@ -1,0 +1,61 @@
+{
+  "name": "mirrorsim",
+  "private": true,
+  "version": "0.2.0",
+  "description": "A Windows AirPlay receiver app for mirroring iPhone in a clean, presentation-ready device frame.",
+  "author": "Mahcks",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mahcks/MirrorSim.git"
+  },
+  "homepage": "https://github.com/Mahcks/MirrorSim#readme",
+  "bugs": {
+    "url": "https://github.com/Mahcks/MirrorSim/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "bun test && cargo test --locked --manifest-path src-tauri/Cargo.toml && cargo test --locked --manifest-path receivers/mirror-receiver/Cargo.toml",
+    "lint": "powershell -ExecutionPolicy Bypass -File scripts/validate-powershell-scripts.ps1 && cargo fmt --manifest-path src-tauri/Cargo.toml -- --check && cargo clippy --locked --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings && cargo clippy --locked --manifest-path receivers/mirror-receiver/Cargo.toml --all-targets -- -D warnings",
+    "audit": "bun audit",
+    "check": "bun run build && bun run lint && bun run test && bun run audit",
+    "preview": "vite preview",
+    "demo:gif": "powershell -ExecutionPolicy Bypass -File scripts/build-demo-gif.ps1",
+    "fetch:airplay-runtime": "powershell -ExecutionPolicy Bypass -File scripts/fetch-airplay-runtime.ps1",
+    "sync:airplay-runtime": "powershell -ExecutionPolicy Bypass -File scripts/sync-airplay-runtime.ps1",
+    "release:prep": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target prep",
+    "release:prep:fetch": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target prep -RuntimeSource fetch",
+    "release:installer": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target installer",
+    "release:installer:fetch": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target installer -RuntimeSource fetch",
+    "release:portable": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target portable",
+    "release:portable:fetch": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target portable -RuntimeSource fetch",
+    "release:all": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target all",
+    "release:all:fetch": "powershell -ExecutionPolicy Bypass -File scripts/build-release.ps1 -Target all -RuntimeSource fetch",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-dialog": "^2.7.3",
+    "@tauri-apps/plugin-opener": "^2.5.5",
+    "@tauri-apps/plugin-store": "^2.4.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.39.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "typescript": "~7.0.2",
+    "vite": "^8.2.2"
+  }
+}

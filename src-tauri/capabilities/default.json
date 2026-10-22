@@ -1,0 +1,37 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "core:window:default",
+    "core:window:allow-close",
+    "core:window:allow-destroy",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-is-fullscreen",
+    "core:window:allow-set-fullscreen",
+    "core:window:allow-start-dragging",
+    "core:window:allow-set-size",
+    "core:window:allow-set-min-size",
+    "core:window:allow-set-max-size",
+    "dialog:allow-open",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [
+        { "url": "https://github.com/Mahcks/MirrorSim" },
+        { "url": "https://github.com/Mahcks/MirrorSim/releases/latest" },
+        { "url": "https://github.com/Mahcks/MirrorSim/issues" },
+        { "url": "https://github.com/Mahcks/MirrorSim/blob/main/LICENSE" },
+        { "url": "https://github.com/Mahcks/MirrorSim/blob/main/THIRD_PARTY_NOTICES.md" },
+        { "url": "https://support.apple.com/kb/DL999" }
+      ]
+    },
+    "opener:allow-reveal-item-in-dir",
+    "store:allow-load",
+    "store:allow-get",
+    "store:allow-set",
+    "store:allow-save"
+  ]
+}

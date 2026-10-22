@@ -1,0 +1,37 @@
+[package]
+name = "mirrorsim"
+version = "0.2.0"
+description = "A Windows AirPlay receiver app for mirroring iPhone in a clean, presentation-ready device frame."
+authors = ["mahcks"]
+edition = "2021"
+rust-version = "1.88"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "mirrorsim_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.23"
+tauri-plugin-dialog = "2"
+tauri-plugin-store = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-single-instance = "=2.4.4"
+url = "2"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_JobObjects", "Win32_System_Services", "Win32_System_Threading"] }
+mdns-sd = { version = "0.21.1", default-features = false }
+getrandom = "0.4"
+
+[dev-dependencies]
+minisign-verify = "0.2"

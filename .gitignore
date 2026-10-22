@@ -1,0 +1,43 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Generated Rust receiver builds
+receivers/**/target/
+
+# Local AirPlay receiver runtime drop-ins
+receivers/AirPlayServer/*.exe
+receivers/AirPlayServer/*.dll
+receivers/AirPlayServer/*.pdb
+
+# Local release artifacts
+release/
+
+# Local planning docs
+V1-ROADMAP.md
+docs/icon-concepts.html
+
+MirrorSim-Chinese.exe
+
