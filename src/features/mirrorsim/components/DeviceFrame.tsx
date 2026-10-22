@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type MouseEventHandler, type PointerEvent, type ReactNode, type WheelEventHandler } from "react";
+import type { CSSProperties, MouseEventHandler, ReactNode, WheelEventHandler } from "react";
 
 import { cn } from "@/lib/utils";
 import { fmtDuration } from "@/features/mirrorsim/helpers";
@@ -79,20 +79,6 @@ export function DeviceFrame({
   onWheel,
   setVideoHost,
 }: DeviceFrameProps) {
-  const [demoTouch, setDemoTouch] = useState<{ x: number; y: number; active: boolean; trail: Array<{ x: number; y: number }> } | null>(null);
-  const touchTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const updateDemoTouch = (event: PointerEvent<HTMLDivElement>, active: boolean) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const point = { x: ((event.clientX - rect.left) / rect.width) * 100, y: ((event.clientY - rect.top) / rect.height) * 100 };
-    setDemoTouch((previous) => ({ x: point.x, y: point.y, active, trail: previous?.trail.length ? [...previous.trail.slice(-15), point] : [point] }));
-  };
-  const finishDemoTouch = () => {
-    touchStart.current = null;
-    setDemoTouch((previous) => previous ? { ...previous, active: false } : null);
-    if (touchTimer.current) clearTimeout(touchTimer.current);
-    touchTimer.current = setTimeout(() => setDemoTouch(null), 850);
-  };
   return (
     <div
       className={cn(
@@ -133,17 +119,7 @@ export function DeviceFrame({
               : "right-3 top-1/2 h-29.5 w-8.25 -translate-y-1/2",
           )}
         />
-        <div
-          className={cn(screenFrameClass, "cursor-crosshair")}
-          onPointerDown={(event) => {
-            touchStart.current = { x: event.clientX, y: event.clientY };
-            event.currentTarget.setPointerCapture(event.pointerId);
-            updateDemoTouch(event, true);
-          }}
-          onPointerMove={(event) => { if (touchStart.current) updateDemoTouch(event, true); }}
-          onPointerUp={(event) => { updateDemoTouch(event, false); finishDemoTouch(); }}
-          onPointerCancel={finishDemoTouch}
-        >
+        <div className={screenFrameClass}>
           <div className="absolute inset-0 rounded-inherit bg-black">
             {!isLive && (
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_22%,rgba(57,208,255,0.055),transparent),linear-gradient(180deg,#060709_0%,#08090d_55%,#060708_100%)]" />
@@ -170,12 +146,6 @@ export function DeviceFrame({
               )}
             />
           </div>
-          {demoTouch && (
-            <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden rounded-inherit" aria-hidden="true">
-              {demoTouch.trail.length > 1 && <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points={demoTouch.trail.map((point) => `${point.x},${point.y}`).join(" ")} fill="none" stroke="rgba(71,211,255,0.8)" strokeWidth="0.8" vectorEffect="non-scaling-stroke" /></svg>}
-              <span className={cn("absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cyan-100 bg-cyan-300/35 shadow-[0_0_0_6px_rgba(34,211,238,0.18),0_0_24px_rgba(34,211,238,0.8)] transition-transform", demoTouch.active && "scale-110")} style={{ left: `${demoTouch.x}%`, top: `${demoTouch.y}%` }} />
-            </div>
-          )}
           {overlay}
           {isLive && previewStatus !== "ready" && (
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/82 px-8 py-10 text-center">
